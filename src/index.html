@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenCaption</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Title bar (draggable) -->
+      <header class="titlebar">
+        <div class="title">
+          <span class="dot"></span>
+          OpenCaption
+        </div>
+        <div class="titlebar-actions">
+<button id="settingsBtn" title="设置">⚙</button>
+          <button id="quitBtn" title="退出">✕</button>
+        </div>
+      </header>
+
+      <!-- Opacity slider + timer row -->
+      <div class="controls">
+        <div class="opacity-ctl">
+          <span>透明度</span>
+          <input type="range" id="opacity" min="0.25" max="1" step="0.01" />
+        </div>
+        <div class="timer">
+          <span id="timerDisplay">00:00</span>
+          <button id="timerToggle" title="看剧计时器">▶</button>
+          <button id="timerReset" title="重置">↺</button>
+        </div>
+      </div>
+
+      <!-- Capture / analyze -->
+      <div class="capture-area">
+        <button id="captureBtn" class="primary">📸 抓字幕识别难词 <kbd>⌘⇧D</kbd></button>
+        <button id="regionBtn" class="ghost-line" title="框选字幕在屏幕上的位置">框选字幕区域</button>
+      </div>
+
+      <!-- Result of analysis -->
+      <section id="analysis" class="analysis hidden">
+        <div class="subtitle-line" id="subtitleLine"></div>
+        <div class="analysis-text hidden" id="analysisText"></div>
+        <div id="wordsList" class="words-list"></div>
+        <button id="saveWordsBtn" class="ghost-line">＋ 把这些词存进笔记</button>
+      </section>
+
+      <!-- Quick note input -->
+      <div class="note-input">
+        <textarea id="noteText" placeholder="随手记 / 金句摘抄…（回车换行，⌘回车保存）"></textarea>
+        <div class="note-input-row">
+          <input id="tsField" class="ts-field" placeholder="时间戳 hh:mm:ss / 或留空用计时器" />
+          <select id="noteType">
+            <option value="note">随手记</option>
+            <option value="quote">金句</option>
+            <option value="plot">剧情</option>
+            <option value="vocab">生词</option>
+          </select>
+          <button id="addNoteBtn" class="primary small">保存</button>
+        </div>
+      </div>
+
+      <!-- Notes list -->
+      <main id="notes" class="notes"></main>
+
+      <footer class="footer">
+        <button id="exportBtn" class="ghost-line">导出全部笔记 (.md)</button>
+      </footer>
+    </div>
+
+    <!-- Settings panel -->
+    <div id="settingsPanel" class="settings-panel hidden">
+      <h3>设置</h3>
+      <label>OpenAI API Key
+        <input type="password" id="apiKey" placeholder="sk-..." />
+        <small>仅保存在你本机，绝不上传。</small>
+      </label>
+      <label>模型
+        <select id="model">
+          <option value="gpt-4o-mini">gpt-4o-mini（便宜、够用）</option>
+          <option value="gpt-4o">gpt-4o（更准、更贵）</option>
+        </select>
+      </label>
+      <label>释义语言
+        <input type="text" id="nativeLang" placeholder="中文" />
+      </label>
+      <div class="settings-actions">
+        <button id="saveSettingsBtn" class="primary">保存</button>
+        <button id="closeSettingsBtn" class="ghost-line">关闭</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>

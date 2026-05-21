@@ -1,0 +1,14 @@
+{
+  "name": "open-caption",
+  "version": "1.0.0",
+  "description": "A translucent always-on-top overlay for language learners. Capture subtitles from any player, get AI-powered vocab analysis and line-by-line explanations.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^30.0.0"
+  }
+}

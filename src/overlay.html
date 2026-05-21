@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        width: 100vw; height: 100vh; overflow: hidden;
+        cursor: crosshair; background: rgba(0, 0, 0, 0.28);
+        font-family: -apple-system, "Noto Sans SC", sans-serif;
+      }
+      #hint {
+        position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+        background: rgba(20, 20, 24, 0.92); color: #f2f0ea;
+        padding: 10px 18px; border-radius: 10px; font-size: 13px;
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.4); z-index: 10;
+      }
+      #hint kbd {
+        background: rgba(255,255,255,0.12); padding: 1px 6px;
+        border-radius: 4px; font-size: 11px;
+      }
+      #rect {
+        position: fixed; border: 2px solid #e8c468;
+        background: rgba(232, 196, 104, 0.12);
+        box-shadow: 0 0 0 9999px rgba(0,0,0,0.0); display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hint">拖动鼠标框住<b>字幕所在的区域</b> · 松开保存 · <kbd>Esc</kbd> 取消</div>
+    <div id="rect"></div>
+    <script>
+      const rect = document.getElementById("rect");
+      let startX, startY, dragging = false;
+
+      window.addEventListener("mousedown", (e) => {
+        dragging = true;
+        startX = e.clientX; startY = e.clientY;
+        rect.style.left = startX + "px";
+        rect.style.top = startY + "px";
+        rect.style.width = "0px";
+        rect.style.height = "0px";
+        rect.style.display = "block";
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!dragging) return;
+        const x = Math.min(e.clientX, startX);
+        const y = Math.min(e.clientY, startY);
+        const w = Math.abs(e.clientX - startX);
+        const h = Math.abs(e.clientY - startY);
+        rect.style.left = x + "px";
+        rect.style.top = y + "px";
+        rect.style.width = w + "px";
+        rect.style.height = h + "px";
+      });
+
+      window.addEventListener("mouseup", (e) => {
+        if (!dragging) return;
+        dragging = false;
+        const x = Math.min(e.clientX, startX);
+        const y = Math.min(e.clientY, startY);
+        const w = Math.abs(e.clientX - startX);
+        const h = Math.abs(e.clientY - startY);
+        if (w < 8 || h < 8) { window.api.cancelRegion(); return; }
+        window.api.regionSelected({ x, y, width: w, height: h });
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") window.api.cancelRegion();
+      });
+    </script>
+  </body>
+</html>
