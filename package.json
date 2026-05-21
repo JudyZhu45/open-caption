@@ -4,11 +4,30 @@
   "description": "A translucent always-on-top overlay for language learners. Capture subtitles from any player, get AI-powered vocab analysis and line-by-line explanations.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder --mac"
   },
-  "author": "",
+  "author": "JudyZhu45",
   "license": "MIT",
+  "build": {
+    "appId": "com.judyzhu45.opencaption",
+    "productName": "OpenCaption",
+    "mac": {
+      "category": "public.app-category.education",
+      "target": "dmg",
+      "extendInfo": {
+        "NSScreenCaptureUsageDescription": "OpenCaption needs screen recording permission to capture subtitles."
+      }
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "package.json"
+    ]
+  },
   "devDependencies": {
-    "electron": "^30.0.0"
+    "electron": "^30.0.0",
+    "electron-builder": "^26.8.1"
   }
 }
